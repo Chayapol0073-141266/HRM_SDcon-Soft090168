@@ -1,0 +1,8 @@
+{
+  "name": "HRM_SDcon Soft 090168 ก่อนเพิ่ม ฟีเจอร์ ข้าม GPS",
+  "description": "A production-ready, SaaS-scalable HR Management System with modular architecture, pastel aesthetics, and AI-powered insights.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
