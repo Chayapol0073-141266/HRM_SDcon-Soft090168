@@ -12,8 +12,6 @@ import { Sparkles, TrendingUp, Users, AlertCircle, DollarSign, Package, Clock, M
 
 const COLORS = ['#818CF8', '#34D399', '#F472B6', '#FBBF24', '#60A5FA', '#A78BFA', '#F87171'];
 
-// (MOCK_NEWS array remains same)
-
 interface DashboardProps {
   onNavigate?: (page: string) => void;
 }
@@ -31,7 +29,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
     l => l.status === 'PENDING' && l.currentApproverRole === currentUser?.role
   ).length;
 
-  // ... (Stats and other logic remains same) ...
   const personnelStats = useMemo(() => {
     const counts: Record<string, number> = {};
     users.forEach(user => {
@@ -82,7 +79,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
 
   return (
     <div className="space-y-6">
-      {/* ... (Pending notification remains same) ... */}
       {showNotification && pendingApprovalsCount > 0 && (
         <div className="bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl p-4 md:p-5 shadow-lg shadow-amber-200/50 flex flex-col md:flex-row items-center justify-between gap-4 animate-in fade-in slide-in-from-top duration-500">
           <div className="flex items-center gap-4">
@@ -135,16 +131,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         </div>
       )}
 
-      {/* ... (Executive Metrics and Charts remain same) ... */}
       {isExecutive && (
-        <>
-          <div className={`grid gap-3 md:gap-4 ${canSeeFinancials ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-1 md:grid-cols-2'}`}>
-            {canSeeFinancials && <MetricCard title="รายรับรวม" value="฿450,200" trend="+12.5%" icon={DollarSign} color="text-emerald-500" />}
-            <MetricCard title="พนักงานทั้งหมด" value={users.length} trend={`+${users.length}`} icon={Users} color="text-blue-500" />
-            {canSeeFinancials && <MetricCard title="สต๊อกรวม" value="฿1.2M" trend="-2.1%" icon={Package} color="text-orange-500" />}
-            {canSeeFinancials && <MetricCard title="ระดับความเสี่ยง" value="ต่ำ" trend="คงที่" icon={AlertCircle} color="text-indigo-500" />}
-          </div>
-        </>
+        <div className={`grid gap-3 md:gap-4 ${canSeeFinancials ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-1 md:grid-cols-2'}`}>
+          {canSeeFinancials && <MetricCard title="รายรับรวม" value="฿450,200" trend="+12.5%" icon={DollarSign} color="text-emerald-500" />}
+          <MetricCard title="พนักงานทั้งหมด" value={users.length} trend={`+${users.length}`} icon={Users} color="text-blue-500" />
+          {canSeeFinancials && <MetricCard title="สต๊อกรวม" value="฿1.2M" trend="-2.1%" icon={Package} color="text-orange-500" />}
+          {canSeeFinancials && <MetricCard title="ระดับความเสี่ยง" value="ต่ำ" trend="คงที่" icon={AlertCircle} color="text-indigo-500" />}
+        </div>
       )}
 
       {!isCEO && (
@@ -173,14 +166,14 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                       onClick={() => onNavigate && onNavigate('attendance')}
                       className="w-full sm:w-56 bg-orange-500 hover:bg-orange-600 text-white font-black py-3 rounded-xl transition-all shadow-lg shadow-orange-100 flex items-center justify-center gap-2 text-sm active:scale-95"
                     >
-                      <Camera className="w-4 h-4" /> ไปหน้าถ่ายรูปเข้างาน
+                      <Camera className="w-4 h-4" /> ลงเวลาเข้างาน
                     </button>
                   ) : !myTodayRecord?.checkOut ? (
                     <button
                       onClick={() => onNavigate && onNavigate('attendance')}
                       className="w-full sm:w-48 bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-rose-100 flex items-center justify-center gap-2 text-sm active:scale-95"
                     >
-                      <Camera className="w-4 h-4" /> ไปหน้าถ่ายรูปเลิกงาน
+                      <Camera className="w-4 h-4" /> ลงเวลาเลิกงาน
                     </button>
                   ) : (
                     <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100 font-bold text-xs shadow-sm">

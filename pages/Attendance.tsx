@@ -196,14 +196,14 @@ const Attendance = () => {
             }`}
           >
             <CameraIcon className="w-6 h-6" />
-            {loading ? 'บันทึก...' : (isCurrentlyLate ? 'เข้างาน (สาย)' : 'ถ่ายรูปเข้างาน')}
+            {loading ? 'บันทึก...' : (isCurrentlyLate ? 'ลงเวลาเข้างาน (สาย)' : 'ลงเวลาเข้างาน')}
           </button>
         ) : !myRecord?.checkOut ? (
           <button
             onClick={() => handleAction('OUT')}
             className="w-full max-w-sm bg-rose-500 text-white font-black py-5 rounded-[1.75rem] shadow-xl flex items-center justify-center gap-3 text-lg"
           >
-            <Camera className="w-6 h-6" /> ถ่ายรูปเลิกงาน
+            <Camera className="w-6 h-6" /> ลงเวลาเลิกงาน
           </button>
         ) : (
           <div className="bg-slate-50 p-8 rounded-[3rem] text-3xl font-black text-indigo-600">
