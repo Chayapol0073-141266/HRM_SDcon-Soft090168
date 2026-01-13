@@ -141,89 +141,109 @@ const Attendance = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6 px-1 pb-10">
-      <h1 className="text-2xl font-bold text-slate-800">ลงเวลาทำงาน</h1>
+    <div className="max-w-4xl mx-auto space-y-10 px-4 pb-20">
+      <div className="text-center md:text-left">
+        <h1 className="text-3xl font-black text-slate-800">ระบบลงเวลาดิจิทัล</h1>
+        <p className="text-slate-500 font-medium">ยืนยันตัวตนด้วยภาพถ่ายและพิกัด GPS</p>
+      </div>
 
       {!myRecord?.checkIn && (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {shouldBypassGPS ? (
-            <div className="p-5 rounded-[2rem] bg-gradient-to-br from-indigo-600 to-indigo-800 text-white shadow-xl flex items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
-              <div className="p-3 bg-white/20 backdrop-blur-md rounded-2xl flex-shrink-0">
-                <MapPinOff className="w-6 h-6 text-white" />
+            <div className="p-6 rounded-[2.5rem] bg-gradient-to-br from-indigo-600 to-indigo-800 text-white shadow-2xl flex items-center gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
+              <div className="p-4 bg-white/20 backdrop-blur-md rounded-2xl flex-shrink-0">
+                <MapPinOff className="w-8 h-8 text-white" />
               </div>
               <div className="flex-1">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-80">สิทธิพิเศษพนักงาน</p>
-                <p className="font-bold text-sm">ได้รับอนุญาตข้ามการตรวจสอบ GPS</p>
+                <p className="text-xs font-black uppercase tracking-[0.2em] opacity-80 mb-1">สิทธิพิเศษส่วนบุคคล</p>
+                <p className="font-bold text-lg">ข้ามการตรวจสอบพื้นที่ GPS ได้</p>
                 {currentUser?.skipGPSReason && (
-                   <div className="mt-1 flex items-center gap-1.5 opacity-90">
-                     <FileText className="w-3 h-3" />
-                     <p className="text-[11px] font-medium italic">"{currentUser.skipGPSReason}"</p>
+                   <div className="mt-2 flex items-center gap-2 opacity-90">
+                     <FileText className="w-4 h-4" />
+                     <p className="text-sm font-medium italic">"{currentUser.skipGPSReason}"</p>
                    </div>
                 )}
               </div>
             </div>
           ) : currentDistanceInfo && (
-            <div className={`p-4 rounded-2xl flex items-center justify-between border ${currentDistanceInfo.inRange ? 'bg-emerald-50 border-emerald-100 text-emerald-700' : 'bg-rose-50 border-rose-100 text-rose-700'}`}>
-               <div className="flex items-center gap-3">
-                 <MapPinned className="w-5 h-5" />
-                 <p className="text-xs font-bold">พิกัด: {currentDistanceInfo.name}</p>
+            <div className={`p-6 rounded-[2.5rem] flex items-center justify-between border-2 shadow-sm transition-all ${currentDistanceInfo.inRange ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-rose-50 border-rose-200 text-rose-700 animate-pulse'}`}>
+               <div className="flex items-center gap-4">
+                 <div className={`p-3 rounded-xl ${currentDistanceInfo.inRange ? 'bg-emerald-200/50' : 'bg-rose-200/50'}`}>
+                    <MapPinned className="w-6 h-6" />
+                 </div>
+                 <div>
+                    <p className="text-xs font-black uppercase tracking-widest opacity-60">จุดตรวจพิกัด</p>
+                    <p className="text-lg font-bold">{currentDistanceInfo.name}</p>
+                 </div>
                </div>
-               <p className="text-xs font-black">{currentDistanceInfo.inRange ? 'อยู่ในพื้นที่' : 'นอกพื้นที่'}</p>
+               <div className="text-right">
+                  <p className="text-sm font-black uppercase tracking-tight">{currentDistanceInfo.inRange ? 'อยู่ในพื้นที่' : 'อยู่นอกพื้นที่'}</p>
+                  <p className="text-[10px] opacity-70">ระยะห่าง: {currentDistanceInfo.distance.toFixed(0)} ม.</p>
+               </div>
             </div>
           )}
         </div>
       )}
 
-      <div className="bg-white p-12 rounded-[2.5rem] shadow-sm border border-slate-100 text-center relative overflow-hidden">
-        <div className={`absolute top-0 left-0 w-full h-1.5 ${isCurrentlyLate && !myRecord?.checkIn ? 'bg-rose-500' : 'bg-orange-400'}`}></div>
-        <Clock className={`w-12 h-12 mx-auto mb-6 ${isCurrentlyLate && !myRecord?.checkIn ? 'text-rose-600' : 'text-orange-600'}`} />
-        <h2 className={`text-5xl font-black mb-10 ${isCurrentlyLate && !myRecord?.checkIn ? 'text-rose-600' : 'text-slate-800'}`}>
-          {new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}
-        </h2>
+      <div className="bg-white p-10 md:p-20 rounded-[3rem] shadow-2xl border border-slate-100 text-center relative overflow-hidden transition-all hover:shadow-indigo-100/50">
+        <div className={`absolute top-0 left-0 w-full h-3 ${isCurrentlyLate && !myRecord?.checkIn ? 'bg-rose-500 shadow-[0_4px_12px_rgba(244,63,94,0.4)]' : 'bg-orange-400'}`}></div>
+        <div className="flex flex-col items-center">
+          <div className={`p-6 rounded-3xl mb-8 ${isCurrentlyLate && !myRecord?.checkIn ? 'bg-rose-50' : 'bg-orange-50'}`}>
+            <Clock className={`w-12 h-12 md:w-16 md:h-16 ${isCurrentlyLate && !myRecord?.checkIn ? 'text-rose-600' : 'text-orange-600'}`} />
+          </div>
+          <h2 className={`text-6xl md:text-8xl font-black mb-12 tracking-tighter ${isCurrentlyLate && !myRecord?.checkIn ? 'text-rose-600' : 'text-slate-800'}`}>
+            {new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}
+          </h2>
+        </div>
 
         {msg && (
-          <div className={`mb-8 p-4 rounded-2xl text-xs font-bold ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+          <div className={`mb-10 p-6 rounded-3xl text-sm font-black shadow-inner flex items-center justify-center gap-3 animate-in zoom-in ${msg.type === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+            {msg.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <ShieldAlert className="w-5 h-5" />}
             {msg.text}
           </div>
         )}
 
-        {!myRecord?.checkIn ? (
-          <button
-            onClick={() => handleAction('IN')}
-            disabled={loading || (!shouldBypassGPS && currentDistanceInfo && !currentDistanceInfo.inRange)}
-            className={`w-full max-w-sm text-white font-black py-5 rounded-[1.75rem] shadow-xl flex items-center justify-center gap-3 text-lg disabled:opacity-50 ${
-              isCurrentlyLate ? 'bg-rose-500' : 'bg-orange-500'
-            }`}
-          >
-            <CameraIcon className="w-6 h-6" />
-            {loading ? 'บันทึก...' : (isCurrentlyLate ? 'ลงเวลาเข้างาน (สาย)' : 'ลงเวลาเข้างาน')}
-          </button>
-        ) : !myRecord?.checkOut ? (
-          <button
-            onClick={() => handleAction('OUT')}
-            className="w-full max-w-sm bg-rose-500 text-white font-black py-5 rounded-[1.75rem] shadow-xl flex items-center justify-center gap-3 text-lg"
-          >
-            <Camera className="w-6 h-6" /> ลงเวลาเลิกงาน
-          </button>
-        ) : (
-          <div className="bg-slate-50 p-8 rounded-[3rem] text-3xl font-black text-indigo-600">
-            {myRecord.checkIn} — {myRecord.checkOut}
-          </div>
-        )}
+        <div className="flex justify-center">
+          {!myRecord?.checkIn ? (
+            <button
+              onClick={() => handleAction('IN')}
+              disabled={loading || (!shouldBypassGPS && currentDistanceInfo && !currentDistanceInfo.inRange)}
+              className={`w-full max-w-2xl text-white font-black py-10 md:py-16 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] flex flex-col md:flex-row items-center justify-center gap-6 text-3xl md:text-6xl disabled:opacity-30 disabled:grayscale transition-all active:scale-95 group ${
+                isCurrentlyLate ? 'bg-rose-500 shadow-rose-200' : 'bg-orange-500 shadow-orange-200'
+              }`}
+            >
+              <CameraIcon className="w-12 h-12 md:w-20 md:h-20 group-hover:scale-110 transition-transform" />
+              <span>{loading ? 'กำลังบันทึก...' : (isCurrentlyLate ? 'ลงเวลาเข้างาน (สาย)' : 'ลงเวลาเข้างาน')}</span>
+            </button>
+          ) : !myRecord?.checkOut ? (
+            <button
+              onClick={() => handleAction('OUT')}
+              className="w-full max-w-2xl bg-rose-500 text-white font-black py-10 md:py-16 rounded-[3rem] shadow-[0_20px_50px_rgba(244,63,94,0.3)] flex flex-col md:flex-row items-center justify-center gap-6 text-3xl md:text-6xl transition-all active:scale-95 group"
+            >
+              <Camera className="w-12 h-12 md:w-20 md:h-20 group-hover:scale-110 transition-transform" />
+              <span>ลงเวลาเลิกงาน</span>
+            </button>
+          ) : (
+            <div className="w-full max-w-2xl bg-slate-50 p-12 md:p-16 rounded-[4rem] text-4xl md:text-6xl font-black text-indigo-600 border-2 border-slate-100 shadow-inner">
+              <p className="text-sm font-black text-slate-400 uppercase tracking-[0.5em] mb-4">สรุปเวลาวันนี้</p>
+              {myRecord.checkIn} <span className="text-slate-200 px-4">—</span> {myRecord.checkOut}
+            </div>
+          )}
+        </div>
       </div>
 
       {showCamera && (
         <div className="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[200] flex flex-col items-center justify-center p-4">
-          <div className="w-full max-w-md bg-black rounded-[2.5rem] overflow-hidden relative">
-            <button onClick={() => setShowCamera(false)} className="absolute top-6 right-6 text-white"><X className="w-6 h-6"/></button>
+          <div className="w-full max-w-2xl bg-black rounded-[3rem] overflow-hidden relative shadow-2xl border-4 border-white/10">
+            <button onClick={() => setShowCamera(false)} className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors z-10"><X className="w-10 h-10"/></button>
             <video ref={videoRef} autoPlay playsInline muted className="w-full aspect-[3/4] object-cover scale-x-[-1]" />
-            <div className="p-8 bg-black/80 flex flex-col gap-4">
+            <div className="p-10 bg-gradient-to-t from-black to-transparent flex flex-col gap-6">
               {!capturedPhoto ? (
-                <button onClick={capturePhoto} className="w-20 h-20 bg-white rounded-full mx-auto border-4 border-slate-300"></button>
+                <button onClick={capturePhoto} className="w-24 h-24 bg-white rounded-full mx-auto border-[6px] border-white/30 shadow-2xl hover:scale-110 transition-transform active:scale-90"></button>
               ) : (
-                <div className="flex gap-4">
-                  <button onClick={() => setCapturedPhoto(null)} className="flex-1 py-4 bg-white/10 text-white rounded-2xl font-bold">ใหม่</button>
-                  <button onClick={() => processAttendance(capturedPhoto)} className="flex-1 py-4 bg-orange-500 text-white rounded-2xl font-black">ยืนยัน</button>
+                <div className="flex gap-6">
+                  <button onClick={() => setCapturedPhoto(null)} className="flex-1 py-6 bg-white/10 text-white rounded-3xl font-bold text-xl hover:bg-white/20 transition-all">ถ่ายรูปใหม่</button>
+                  <button onClick={() => processAttendance(capturedPhoto)} className="flex-1 py-6 bg-orange-500 text-white rounded-3xl font-black text-xl hover:bg-orange-600 shadow-xl shadow-orange-500/30 transition-all">ยืนยันภาพนี้</button>
                 </div>
               )}
             </div>

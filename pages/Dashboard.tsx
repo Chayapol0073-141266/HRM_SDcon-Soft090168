@@ -141,64 +141,71 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
       )}
 
       {!isCEO && (
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-           <div className="p-5 border-b border-slate-50 flex items-center justify-between">
-              <h3 className="font-bold text-slate-700 flex items-center gap-2 text-sm md:text-base">
+        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+           <div className="p-6 border-b border-slate-50 flex items-center justify-between">
+              <h3 className="font-bold text-slate-700 flex items-center gap-2 text-base md:text-lg">
                 <Clock className="w-5 h-5 text-orange-500" /> ลงเวลาทำงานของคุณ
               </h3>
            </div>
 
-           <div className="p-4 md:p-6 bg-slate-50/50 border-b border-slate-100">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2.5 bg-white rounded-xl border border-slate-200 shadow-sm">
-                    <Clock className="w-5 h-5 text-orange-600" />
+           <div className="p-6 md:p-10 bg-slate-50/50 border-b border-slate-100">
+              <div className="flex flex-col gap-8">
+                <div className="flex items-center gap-4">
+                  <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
+                    <CalendarIcon className="w-6 h-6 text-orange-600" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-700">วันนี้: {new Date().toLocaleDateString('th-TH')}</p>
-                    <p className="text-[10px] text-slate-400">ระบบจำเป็นต้องถ่ายรูปยืนยันตัวตน</p>
+                    <p className="text-sm font-bold text-slate-700">ประจำวันที่: {new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                    <p className="text-xs text-slate-400">กรุณาถ่ายรูปเพื่อยืนยันการลงเวลางาน</p>
                   </div>
                 </div>
 
-                <div className="w-full sm:w-auto">
+                <div className="w-full">
                   {!myTodayRecord?.checkIn ? (
                     <button
                       onClick={() => onNavigate && onNavigate('attendance')}
-                      className="w-full sm:w-56 bg-orange-500 hover:bg-orange-600 text-white font-black py-3 rounded-xl transition-all shadow-lg shadow-orange-100 flex items-center justify-center gap-2 text-sm active:scale-95"
+                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black py-8 md:py-12 rounded-[2.5rem] transition-all shadow-2xl shadow-orange-200 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 active:scale-95 group"
                     >
-                      <Camera className="w-4 h-4" /> ลงเวลาเข้างาน
+                      <Camera className="w-10 h-10 md:w-16 md:h-16 group-hover:scale-110 transition-transform" />
+                      <span className="text-3xl md:text-5xl uppercase tracking-tight">ลงเวลาเข้างาน</span>
                     </button>
                   ) : !myTodayRecord?.checkOut ? (
                     <button
                       onClick={() => onNavigate && onNavigate('attendance')}
-                      className="w-full sm:w-48 bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-rose-100 flex items-center justify-center gap-2 text-sm active:scale-95"
+                      className="w-full bg-rose-500 hover:bg-rose-600 text-white font-black py-8 md:py-12 rounded-[2.5rem] transition-all shadow-2xl shadow-rose-200 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 active:scale-95 group"
                     >
-                      <Camera className="w-4 h-4" /> ลงเวลาเลิกงาน
+                      <Camera className="w-10 h-10 md:w-16 md:h-16 group-hover:scale-110 transition-transform" />
+                      <span className="text-3xl md:text-5xl uppercase tracking-tight">ลงเวลาเลิกงาน</span>
                     </button>
                   ) : (
-                    <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100 font-bold text-xs shadow-sm">
-                      <CheckCircle className="w-4 h-4" /> ลงเวลาครบแล้ว: {myTodayRecord.checkIn} - {myTodayRecord.checkOut}
+                    <div className="w-full flex flex-col items-center justify-center py-10 bg-emerald-50 rounded-[2.5rem] border-2 border-emerald-100 shadow-inner">
+                      <CheckCircle className="w-16 h-16 text-emerald-500 mb-4" />
+                      <p className="text-2xl font-black text-emerald-700">ลงเวลาครบถ้วนแล้ว</p>
+                      <p className="text-lg font-bold text-emerald-600 mt-2">
+                        {myTodayRecord.checkIn} - {myTodayRecord.checkOut}
+                      </p>
                     </div>
                   )}
                 </div>
               </div>
            </div>
 
-           <div className="p-2 md:p-4 space-y-2">
+           <div className="p-4 md:p-6 space-y-3">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2 mb-2">ประวัติล่าสุด</p>
               {myRecentAttendance.map((rec) => (
-                <div key={rec.id} className="flex items-center justify-between p-3 bg-slate-50/50 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
-                    <div className="flex items-center gap-3">
-                        <div className={`w-2.5 h-2.5 rounded-full ${rec.status === 'NORMAL' ? 'bg-emerald-400' : 'bg-rose-400'}`}></div>
+                <div key={rec.id} className="flex items-center justify-between p-4 bg-white rounded-2xl hover:bg-slate-50 transition-colors border border-slate-100 shadow-sm">
+                    <div className="flex items-center gap-4">
+                        <div className={`w-3 h-3 rounded-full ${rec.status === 'NORMAL' ? 'bg-emerald-400' : 'bg-rose-400 shadow-lg shadow-rose-200'}`}></div>
                         <div>
-                          <p className="text-sm font-bold text-slate-700">เข้างาน: {rec.checkIn}</p>
+                          <p className="text-sm font-bold text-slate-700">เข้า: {rec.checkIn} {rec.checkOut && `| ออก: ${rec.checkOut}`}</p>
                           <p className="text-[10px] text-slate-500 font-medium">
                             {new Date(rec.date).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })}
-                            {rec.checkOut && <span className="text-emerald-600 ml-2"> (ทำงาน {calculateWorkTime(rec.checkIn, rec.checkOut)})</span>}
+                            {rec.checkOut && <span className="text-emerald-600 ml-2 font-bold"> (ทำงาน {calculateWorkTime(rec.checkIn, rec.checkOut)})</span>}
                           </p>
                         </div>
                     </div>
                     {rec.photoIn && (
-                      <img src={rec.photoIn} className="w-10 h-10 rounded-lg object-cover border-2 border-white shadow-sm" alt="CheckIn Thumb" />
+                      <img src={rec.photoIn} className="w-12 h-12 rounded-xl object-cover border-2 border-slate-50 shadow-sm" alt="CheckIn Thumb" />
                     )}
                 </div>
               ))}
