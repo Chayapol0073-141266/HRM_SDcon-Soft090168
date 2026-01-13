@@ -4,6 +4,7 @@ import { StoreProvider, useStore } from './context/Store.tsx';
 import Login from './pages/Login.tsx';
 import Dashboard from './pages/Dashboard.tsx';
 import Attendance from './pages/Attendance.tsx';
+import AttendanceManagement from './pages/AttendanceManagement.tsx';
 import Leave from './pages/Leave.tsx';
 import Employees from './pages/Employees.tsx';
 import Reports from './pages/Reports.tsx';
@@ -26,6 +27,7 @@ const AppRoutes = () => {
     switch (currentPage) {
       case 'dashboard': return <Dashboard onNavigate={setCurrentPage} />;
       case 'attendance': return <Attendance />;
+      case 'attendance-management': return <AttendanceManagement />;
       case 'leaves': return <Leave />;
       case 'employees': return <Employees />;
       case 'reports': return <Reports />;

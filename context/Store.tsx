@@ -15,7 +15,8 @@ import {
   where,
   getDocs,
   limit,
-  getDoc
+  getDoc,
+  writeBatch
 } from 'firebase/firestore';
 
 interface CheckInResult {
@@ -50,6 +51,7 @@ interface StoreContextType extends AppState {
   removeLocation: (id: string) => Promise<void>;
   addHoliday: (holiday: Omit<Holiday, 'id'>) => Promise<void>;
   removeHoliday: (id: string) => Promise<void>;
+  addBulkAttendance: (records: Omit<AttendanceRecord, 'id'>[]) => Promise<{ success: boolean; count: number }>;
   dbError: string | null;
 }
 
@@ -382,12 +384,28 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const addHoliday = async (h: any) => { await addDoc(collection(db, 'holidays'), h); };
   const removeHoliday = async (id: string) => { await deleteDoc(doc(db, 'holidays', id)); };
 
+  const addBulkAttendance = async (records: Omit<AttendanceRecord, 'id'>[]): Promise<{ success: boolean; count: number }> => {
+    try {
+      const batch = writeBatch(db);
+      records.forEach(record => {
+        const docRef = doc(collection(db, 'attendance'));
+        batch.set(docRef, record);
+      });
+      await batch.commit();
+      return { success: true, count: records.length };
+    } catch (error) {
+      console.error("Bulk Import Error:", error);
+      return { success: false, count: 0 };
+    }
+  };
+
   return (
     <StoreContext.Provider value={{ 
       currentUser, users, attendance, leaves, isAuthenticated: !!currentUser,
       positions, departments, shifts, locations, holidays, dbError,
       login, logout, checkIn, checkOut, requestLeave, approveLeave, rejectLeave, changePassword, addUser, updateUser, adminResetPassword,
-      addPosition, updatePosition, removePosition, addDepartment, updateDepartment, removeDepartment, addShift, updateShift, removeShift, addLocation, updateLocation, removeLocation, addHoliday, removeHoliday
+      addPosition, updatePosition, removePosition, addDepartment, updateDepartment, removeDepartment, addShift, updateShift, removeShift, addLocation, updateLocation, removeLocation, addHoliday, removeHoliday,
+      addBulkAttendance
     }}>
       {children}
     </StoreContext.Provider>

@@ -25,7 +25,8 @@ export interface User {
   approver3Id?: string;
   shiftId?: string;
   attendanceCondition: AttendanceCondition;
-  skipGPS?: boolean; // ฟีเจอร์ข้ามการตรวจสอบพิกัด
+  skipGPS?: boolean;
+  skipGPSReason?: string; // เหตุผลในการยกเว้นการเช็คพิกัด
 }
 
 export interface AttendanceRecord {
